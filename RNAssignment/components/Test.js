@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Platform, StyleSheet, Text, View, Button } from 'react-native';
+import { Platform, StyleSheet, Text, View, Button, Image } from 'react-native';
 import * as actionCreators from '../actions/TestActions';
 
 const instructions = Platform.select({
@@ -12,14 +12,18 @@ const instructions = Platform.select({
 
 class Test extends Component{
   render() {
-    const { test, stateTest } = this.props;
+    const { getCat, stateTest, cat } = this.props;
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>Welcome to React Native!</Text>
         <Text style={styles.instructions}>LETS REALLY REALLY GET STARTED!</Text>
         <Button 
           title='Test'
-          onPress={test}
+          onPress={(w, h) => getCat(200, 200)}
+        />
+        <Image
+          style={{width: 200, height: 200}}
+          source={{uri: 'https://placekitten.com/200/200'}}
         />
         <Text style={styles.instructions}>{stateTest}</Text>
       </View>
@@ -47,7 +51,8 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => ({
-  stateTest: state.catList.test
+  stateTest: state.catList.test,
+  cat: state.catList.cat
 })
 
 const mapDispatchToProps = {
