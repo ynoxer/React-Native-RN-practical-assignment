@@ -42,7 +42,6 @@ export default class CatDetails extends Component {
     );
   }
 
-  
 };
 
 const styles = StyleSheet.create({
@@ -58,11 +57,12 @@ const styles = StyleSheet.create({
     height: 300 
   },
   name: {
-    marginTop: 5,
-    fontSize: 25,
+    margin: 10,
+    fontSize: 30,
     color: 'black'
   },
   description: {
-    fontSize: 20
+    fontSize: 20,
+    margin: 10
   }
 });

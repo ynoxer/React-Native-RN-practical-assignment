@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Platform, StyleSheet, Text, View, ScrollView, Button, Image, FlatList, TouchableHighlight } from 'react-native';
+import { Platform, StyleSheet, Text, View, ScrollView, Button, Image, FlatList, TouchableHighlight, NetInfo } from 'react-native';
 import * as actionCreators from '../actions/CatListActions';
 import CatListCard from './CatListCard';
 import AmmountPicker from './AmmountPicker';
-
+import NoInternetIndicator from './NoInternetIndicator';
 
 class CatList extends Component{
 
@@ -16,13 +16,22 @@ class CatList extends Component{
     }
   };
 
+  handleConnectivityChange = isConnected => {
+    this.props.handleConnectivityChange(isConnected);
+  };
+
   componentDidMount() {
     this.props.setListLength(30);
     this.props.generateCatList(100);
+    NetInfo.isConnected.addEventListener('connectionChange', this.handleConnectivityChange);
+  };
+
+  componentWillUnmount() {
+    NetInfo.isConnected.removeEventListener('connectionChange', this.handleConnectivityChange);
   };
 
   render() {
-    const { generateCatList, setListLength, list, length, navigation } = this.props;
+    const { generateCatList, setListLength, list, length, navigation, isConnected } = this.props;
 
     const renderList = () => {
       if (list) {
@@ -57,10 +66,13 @@ class CatList extends Component{
     }
 
     return (
-      <ScrollView>
-        <AmmountPicker setLength={(length) => setListLength(length)}/>
-        { renderList() }
-      </ScrollView>
+      <View>
+        <NoInternetIndicator isConnected={isConnected}/>
+        <ScrollView>
+          <AmmountPicker currentLength={length} setLength={(length) => setListLength(length)}/>
+          { renderList() }
+        </ScrollView>
+      </View>
     );
   }
 }
@@ -68,7 +80,8 @@ class CatList extends Component{
 
 const mapStateToProps = (state) => ({
   list: state.catList.list,
-  length: state.catList.length
+  length: state.catList.length,
+  isConnected: state.catList.isConnected
 })
 
 const mapDispatchToProps = {

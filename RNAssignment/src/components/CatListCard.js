@@ -5,10 +5,10 @@ import { StyleSheet, Text, View, Image } from 'react-native';
 const CatListCard = ({uri, name}) => (
   <View style={styles.container}>
     <Image
-      style={{width: 200, height: 200, borderRadius: 20}}
+      style={styles.image}
       source={{uri: uri}}
     />
-    <Text style={{marginTop: 5, fontSize: 20}}>{name}</Text>
+    <Text style={styles.name}>{name}</Text>
   </View>
 );
 
@@ -23,6 +23,15 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'black'
   },
+  image: {
+    width: 200,
+    height: 200,
+    borderRadius: 20
+  },
+  name: {
+    marginTop: 5,
+    fontSize: 20
+  }
 });
 
 export default CatListCard;
